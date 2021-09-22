@@ -1,0 +1,66 @@
+<div class="main-container">
+    <app-header></app-header>
+    <div class="content">
+        <div class="row mx-0">
+            <div class="col-lg-3 col-md-4 col-12">
+                <div class="card participent">
+                    <div class="card-header">
+                        <h1>Participants ({{participants.length}})</h1>
+                        <p-button [icon]="!(addParticipant) ? 'pi pi-plus': 'pi pi-minus'" (click)="addParticipant = !addParticipant"></p-button>
+                    </div>
+                    <div class="card-body">
+                        <div class="not-active" [ngClass]="{'active': addParticipant}">
+                            <div class="fiels-box p-3">
+                                <div style="display:flex;">
+                                    <input [disabled]="isPlayDisabled" type="text" class="mr-2" [ngClass]="{'error': showError && !participantName}" pInputText placeholder="Name" [(ngModel)]="participantName">
+                                    <p-button [disabled]="isPlayDisabled" (click)="addParticipants()" label="Add"></p-button>
+                                </div>
+                                <small class="text-danger" *ngIf="showError && !participantName">Name is missing</small>
+                                <div class="numb-input">
+                                    <span class="p-float-label">
+                                            <input [disabled]="isPlayDisabled" type="number" min="1" pInputText placeholder="1" width="50px" [(ngModel)]="participantTime" (change)="onTimeChange()">
+                                            <label for="float-input" class="m-0" style="left: 0.5rem">Time</label>
+                                    </span>
+                                    <div class="p-field-checkbox d-flex align-items-center">
+                                        <input [disabled]="isPlayDisabled" type="checkbox" [(ngModel)]="playSound" [ngModelOptions]="{standalone: true}" style=" width: unset; margin-left: 10px; margin-right: 0px; " />
+                                        <label for="ps" class="text-nowrap">Play Sound</label>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div cdkDropList class="example-list" [ngClass]="{'active': addParticipant}" (cdkDropListDropped)="dropFunction($event)">
+                            <div class="example-box" *ngFor="let participant of participants; let i=index;" cdkDrag [ngClass]="{'playing': participant.status == 'playing', played: participant.status == 'played'}">
+                                <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+                                {{participant.name}} <button icon="pi pi-trash" pButton pRipple class="p-button-danger p-button-sm " [disabled]="participant.status != 'pending'" *ngIf="!isPlayDisabled" (click)="participants.splice(i,1)" style="padding: 5px 8px; width: unset;"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-8 col-12">
+                <div class="action-container">
+                    <div class="action-button">
+                        <button (click)="play()" [disabled]="isPlayDisabled" pButton pRipple label="Play Daily" icon="pi pi-play" class="p-button-primary"></button>
+                        <button (click)="pause()" [disabled]="!isPlayDisabled" pButton pRipple label="Pause Daily" icon="pi pi-pause" class="p-button-danger"></button>
+                        <button (click)="reset()" pButton pRipple label="Reset Daily " icon="pi pi-sliders-h" class="p-button-warning"></button>
+                    </div>
+                    <h6>Total scrum time : <span>{{overallScrumTime | formatTime}}</span></h6>
+                </div>
+                <div class="card participent current mt-2">
+                    <div class="card-header">
+                        <h1>Current Participant</h1>
+                        <p-button *ngIf="isPlayDisabled && runningParticipantName && runningParticipantName != 'Allignments'" (click)="participantDone()" label="Done" icon="pi pi-check"></p-button>
+                        <p-button *ngIf="isPlayDisabled && runningParticipantName == 'Allignments'" (click)="finish()" label="Finish" icon="pi pi-check-circle"></p-button>
+                    </div>
+                    <div class="card-body">
+                        <div class="current-participant">
+                            <h6>{{runningParticipantName}}</h6>
+                            <h6 *ngIf="runningParticipantName && runningParticipantName != 'Allignments'" class="text-danger">{{participantCounter | formatTime}}</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
