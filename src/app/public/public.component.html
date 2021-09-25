@@ -14,16 +14,15 @@
           <div class="card-body">
             <div class="not-active" [ngClass]="{ active: addParticipant }">
               <div class="fiels-box p-3">
-                <div style="display: flex">
+                <div class="add-participant">
                   <input
                     [disabled]="isPlayDisabled"
                     type="text"
-                    class="mr-2"
+                    class="name-input"
                     [ngClass]="{ error: showError && !participantName }"
                     pInputText
                     placeholder="Nome"
-                    [(ngModel)]="participantName"
-                  />
+                    [(ngModel)]="participantName"/>
                   <button
                     [disabled]="isPlayDisabled"
                     (click)="addParticipants()"
@@ -50,9 +49,8 @@
                       type="checkbox"
                       [(ngModel)]="playSound"
                       [ngModelOptions]="{ standalone: true }"
-                      style="width: unset; margin-left: 10px; margin-right: 0px"
-                    />
-                    <label for="ps" class="text-nowrap">Play Sound</label>
+                      style="width: unset; margin-left: 10px; margin-right: 0px"/>
+                    <label for="ps" class="text-nowrap">Tocar sons</label>
                   </div>
                 </div>
               </div>
@@ -102,8 +100,7 @@
               pRipple
               label="Iniciar daily"
               icon="pi pi-play"
-              class="p-button-primary"
-            ></button>
+              class="p-button-primary"></button>
             <button
               (click)="pause()"
               [disabled]="!isPlayDisabled"

@@ -152,7 +152,7 @@
 ::ng-deep .example-box {
     padding: 10px;
     color: $dark-grey;
-    background: $blue-grey;
+    background: $purple;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -185,11 +185,11 @@
 }
 
 .playing {
-    background: $purple !important;
+    background: $pink !important;
 }
 
 .played {
-    background: $blue-grey !important;
+    background: $purple !important;
 }
 
 .p-button:disabled {
@@ -200,10 +200,12 @@
 .p-button {
     &-primary {
         background-color: $green;
+        min-width: 100px;
+        color: $dark-grey;
     }
 
     &-danger {
-        background-color: $purple;
+        background-color: $red;
     }
 
     &-warning {
@@ -213,4 +215,31 @@
 
 .card {
     border: 0px;
+}
+
+.add-participant {
+    display: flex;
+    min-width: 0;
+    color: $pink;
+}
+
+.p-inputtext {
+    background-color: $light-grey;
+}
+
+::-webkit-input-placeholder {
+    /* WebKit browsers */
+    color: $pink;
+}
+:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: $pink;
+}
+::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: $pink;
+}
+:-ms-input-placeholder {
+    /* Internet Explorer 10+ */
+    color: $pink;
 }

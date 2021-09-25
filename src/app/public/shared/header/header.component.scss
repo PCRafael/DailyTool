@@ -1,47 +1,49 @@
 @import "../../../../template.scss";
 @import "../../../../styles.scss";
 header {
-  width: 100%;
-  background: #1c1e21;
-  padding: 5px 20px;
-  @include row;
-  @include align-center;
-  @include justify-space-between;
-  @include for-responsive($screen-mobile) {
-    @include column;
-    @include align-start;
-  }
-  .logo {
-    h1 {
-      font-family: $primary-font;
-      font-size: 20px;
-      font-weight: bold;
-      margin: 0;
-      color: #fff;
-    }
-  }
-  .instuction {
+    width: 100%;
+    background: $dark-grey;
+    padding: 5px 20px;
+    @include row;
+    @include align-center;
+    @include justify-space-between;
     @include for-responsive($screen-mobile) {
-      text-align: right;
-      width: 100%;
+        @include column;
+        @include align-start;
     }
-    h6 {
-      font-family: $primary-font;
-      font-size: 12px;
-      font-weight: bold;
-      margin: 0;
-      text-align: right;
-      margin-bottom: 2px;
-      color: #ffffff;
-      span {
-        display: inline-block;
-        padding: 5px;
-        border-radius: 4px;
-        font-size: 10px;
-        margin-left: 10px;
-        background: $primary-color;
-        color: #ffffff;
-      }
+    .logo {
+        h1 {
+            font-family: $primary-font;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 0;
+            color: $white;
+        }
     }
-  }
+    .instructions {
+        @include for-responsive($screen-mobile) {
+            text-align: right;
+            width: 100%;
+        }
+        h6 {
+            font-family: $primary-font;
+            font-size: 12px;
+            font-weight: bold;
+            margin: 0;
+            text-align: right;
+            margin-bottom: 2px;
+            color: $white;
+            span {
+                display: inline-block;
+                padding: 5px;
+                border-radius: 4px;
+                font-size: 10px;
+                margin-left: 10px;
+                background: $green;
+                color: $dark-grey;
+                width: 50px;
+                text-align: center;
+            }
+        }
+    }
 }

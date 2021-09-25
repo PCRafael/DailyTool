@@ -145,6 +145,7 @@ export class PublicComponent implements OnInit {
   }
 
   finish() {
+    this.playAudio();
     this.scrumStarted = false;
     clearInterval(this.scrumInterval);
     this.participants.forEach(function (p: any) {
@@ -172,11 +173,9 @@ export class PublicComponent implements OnInit {
   playAudio() {
     if (this.playSound) {
       let audio = new Audio();
-      this.runningParticipantName == "Alinhamentos"
-        ? (audio.src = "assets/lets-go-team.mp3")
-        : (audio.src = "assets/horn.mp3");
+      this.runningParticipantName == "Alinhamentos" ? (audio.src = "assets/lets-go-team.mp3") : (audio.src = "assets/horn.mp3");
       audio.load();
-      audio.volume = 0.01;
+      audio.volume = 0.1;
       audio.play();
     }
   }
