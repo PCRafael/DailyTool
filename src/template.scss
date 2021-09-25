@@ -1,25 +1,14 @@
+@import "./styles.scss";
+
 @font-face {
     font-family: "Montserrat";
     src: url("./assets/@font-face/Montserrat-Regular.ttf");
     /* IE9*/
-    src: url("./assets/@font-face/Montserrat-Regular.ttf") format('truetype'), /* Safari, Android, iOS */
+    src: url("./assets/@font-face/Montserrat-Regular.ttf") format("truetype"); /* Safari, Android, iOS */
 }
 
-$primary-font: 'Montserrat';
-$primary-color: #3F51B5;
-$primary-shade1: #ffa500;
-$secondary-color: "";
-$dark: #000000;
-$grey: #7d7d7d;
-$lightgrey: #f0f4f7;
-$screen-lap: 1440px;
-$screen-small: 1280px;
-$screen-medium: 1080px;
-$screen-tab: 812px;
-$screen-mobile: 767.9px;
-$link-color:#00387a;
 @mixin gradient-background {
-    background: linear-gradient(45deg, $primary-color, $primary-shade1);
+    background: linear-gradient(45deg, $purple, $pink);
 }
 
 input {
@@ -107,17 +96,12 @@ input {
     border-radius: $x;
 }
 
-@mixin box-shadow($x,
-$y,
-$z,
-$c) {
+@mixin box-shadow($x, $y, $z, $c) {
     -webkit-box-shadow: $x $y $z $c;
     box-shadow: $x $y $z $c;
 }
 
-@mixin translate($x,
-$y,
-$z) {
+@mixin translate($x, $y, $z) {
     -webkit-transform: translate3d($x, $y, $z);
     transform: translate3d($x, $y, $z);
 }
@@ -153,9 +137,7 @@ $z) {
     margin: 0 auto;
 }
 
-@mixin button($color,
-$background,
-$type) {
+@mixin button($color, $background, $type) {
     background-color: $background;
     border: none;
     outline: none;
@@ -163,22 +145,15 @@ $type) {
     font-weight: 600;
     color: $color;
     @include border-radius(2px);
-    @include box-shadow(0,
-    1px,
-    3px,
-    rgba(0,
-    0,
-    0,
-    0.3));
+    @include box-shadow(0, 1px, 3px, $dark-grey);
     line-height: 1;
     @include row;
     @include align-center;
     letter-spacing: 1px;
-    @if $type=="large" {
+    @if $type== "large" {
         font-size: 12px;
         padding: 14px 18px;
-    }
-    @else {
+    } @else {
         font-size: 12px;
         padding: 10px 16px;
     }
@@ -191,7 +166,6 @@ $type) {
         line-height: 1;
     }
 }
-
 
 /* Responsive */
 
@@ -213,15 +187,14 @@ body::-webkit-scrollbar {
 }
 
 body::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: inset 0 0 6px $dark-grey;
+    box-shadow: inset 0 0 6px $dark-grey;
 }
 
 body::-webkit-scrollbar-thumb {
-    background-color: darkgrey;
-    outline: 1px solid slategrey;
+    background-color: $dark-grey;
+    outline: 1px solid $blue-grey;
 }
-
 
 /* Reset */
 
@@ -249,15 +222,15 @@ a {
     top: 0;
     left: 0;
     z-index: 1099;
-    background-color: #69696980;
+    background-color: $light-grey;
     img {
         width: 75px;
     }
 }
 
 ._btn-primary {
-    background: #007bff;
-    color: #fff;
+    background: $cyan;
+    color: $white;
     @include border-radius(4px);
 }
 
@@ -265,7 +238,7 @@ a {
 .loader-section {
     margin: 0;
     padding: 0;
-    background: rgba(52, 73, 94, 0.5);
+    background: $light-grey;
     height: 100%;
     width: 100%;
     display: flex;
@@ -283,7 +256,7 @@ a {
     height: 200px;
     box-sizing: border-box;
     border-radius: 50%;
-    border-top: 10px solid #2a2a2a;
+    border-top: 10px solid $dark-grey;
     position: relative;
     animation: a1 2s linear infinite;
 }
@@ -301,12 +274,12 @@ a {
 }
 
 .loading::before {
-    border-top: 10px solid #01aef0;
+    border-top: 10px solid $cyan;
     transform: rotate(120deg);
 }
 
 .loading::after {
-    border-top: 10px solid #72b645;
+    border-top: 10px solid $green;
     transform: rotate(240deg);
 }
 
@@ -314,7 +287,7 @@ a {
     position: absolute;
     width: 200px;
     height: 200px;
-    color: #fff;
+    color: $white;
     text-align: center;
     line-height: 200px;
     animation: a2 2s linear infinite;
@@ -333,7 +306,7 @@ a {
 }
 
 .warningInput {
-    border: 1px solid #ff0000 !important;
+    border: 1px solid $red !important;
 }
 
 .warningSpan {
@@ -341,18 +314,18 @@ a {
 }
 
 .warningInputBorder {
-     ::ng-deep .mat-form-field-underline {
-        background-color: #ff0000;
+    ::ng-deep .mat-form-field-underline {
+        background-color: $red;
     }
 }
 
 .option-warning {
-    border-bottom: 1px solid #ff0000;
+    border-bottom: 1px solid $red;
 }
 
 .radioNull {
-     ::ng-deep .mat-radio-outer-circle {
-        border: 1px solid #ff0000;
+    ::ng-deep .mat-radio-outer-circle {
+        border: 1px solid $red;
     }
 }
 

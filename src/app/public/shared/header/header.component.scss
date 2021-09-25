@@ -1,47 +1,47 @@
 @import "../../../../template.scss";
 @import "../../../../styles.scss";
 header {
-    width: 100%;
-    background: #1c1e21;
-    padding: 5px 20px;
-    @include row;
-    @include align-center;
-    @include justify-space-between;
+  width: 100%;
+  background: #1c1e21;
+  padding: 5px 20px;
+  @include row;
+  @include align-center;
+  @include justify-space-between;
+  @include for-responsive($screen-mobile) {
+    @include column;
+    @include align-start;
+  }
+  .logo {
+    h1 {
+      font-family: $primary-font;
+      font-size: 20px;
+      font-weight: bold;
+      margin: 0;
+      color: #fff;
+    }
+  }
+  .instuction {
     @include for-responsive($screen-mobile) {
-        @include column;
-        @include align-start;
+      text-align: right;
+      width: 100%;
     }
-    .logo {
-        h1 {
-            font-family: $primary-font;
-            font-size: 20px;
-            font-weight: bold;
-            margin: 0;
-            color: #fff;
-        }
+    h6 {
+      font-family: $primary-font;
+      font-size: 12px;
+      font-weight: bold;
+      margin: 0;
+      text-align: right;
+      margin-bottom: 2px;
+      color: #ffffff;
+      span {
+        display: inline-block;
+        padding: 5px;
+        border-radius: 4px;
+        font-size: 10px;
+        margin-left: 10px;
+        background: $primary-color;
+        color: #ffffff;
+      }
     }
-    .instuction {
-        @include for-responsive($screen-mobile) {
-            text-align: right;
-            width: 100%;
-        }
-        h6 {
-            font-family: $primary-font;
-            font-size: 12px;
-            font-weight: bold;
-            margin: 0;
-            text-align: right;
-            margin-bottom: 2px;
-            color: #ffffff;
-            span {
-                display: inline-block;
-                padding: 5px;
-                border-radius: 4px;
-                font-size: 10px;
-                margin-left: 10px;
-                background: $primary-color;
-                color: #ffffff;
-            }
-        }
-    }
+  }
 }

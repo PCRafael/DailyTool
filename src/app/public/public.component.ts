@@ -1,62 +1,66 @@
-import { Component, OnInit, HostListener } from '@angular/core';
-import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import { Component, OnInit, HostListener } from "@angular/core";
+import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { timer, Subscription } from "rxjs";
 import { Pipe, PipeTransform } from "@angular/core";
 
 @Component({
-  selector: 'app-public',
-  templateUrl: './public.component.html',
-  styleUrls: ['./public.component.scss']
+  selector: "app-public",
+  templateUrl: "./public.component.html",
+  styleUrls: ["./public.component.scss"],
 })
-
 export class PublicComponent implements OnInit {
-
-  @HostListener('document:keyup', ['$event']) handleKeyboardEvent(event: KeyboardEvent) {
-    if(event.key == ' ') {
-      if(this.isPlayDisabled) this.pause();
+  @HostListener("document:keyup", ["$event"]) handleKeyboardEvent(
+    event: KeyboardEvent
+  ) {
+    if (event.key == " ") {
+      if (this.isPlayDisabled) this.pause();
       else this.play();
-    } else if(event.key == 'Enter') {
-      if(this.isPlayDisabled && this.runningParticipantName == 'Alinhamentos') this.finish();
-      else if(this.scrumStarted) this.participantDone();
+    } else if (event.key == "Enter") {
+      if (this.isPlayDisabled && this.runningParticipantName == "Alinhamentos")
+        this.finish();
+      else if (this.scrumStarted) this.participantDone();
     }
   }
 
-  constructor() { }
+  constructor() {}
 
-  scrumStarted:boolean = false;
-  participantName:string = '';
-  participants:any = [];
-  participantTime:number = 1;
-  playSound:boolean = true;
-  addParticipant:boolean = false;
-  
-  isPlayDisabled:boolean = false;
-  showError:boolean = false;
-  startTime:any;
-  overallScrumTime:number = 0;
-  scrumInterval:any;
+  scrumStarted: boolean = false;
+  participantName: string = "";
+  participants: any = [];
+  participantTime: number = 1;
+  playSound: boolean = true;
+  addParticipant: boolean = false;
+
+  isPlayDisabled: boolean = false;
+  showError: boolean = false;
+  startTime: any;
+  overallScrumTime: number = 0;
+  scrumInterval: any;
 
   //Participant Timer
   playingParticipantIndex = 0;
-  runningParticipantName:string = '';
-  participantTimer:any;
+  runningParticipantName: string = "";
+  participantTimer: any;
   participantTimerMax = 60 * this.participantTime;
   participantTimerVal = 0;
   participantCounter = this.participantTimerMax;
 
-  ngOnInit(): void {
-  }
-  
-  dropFunction(event : CdkDragDrop<string[]>) {
-    if(!this.isPlayDisabled) {
-      moveItemInArray(this.participants, event.previousIndex, event.currentIndex);
+  ngOnInit(): void {}
+
+  dropFunction(event: CdkDragDrop<string[]>) {
+    if (!this.isPlayDisabled) {
+      moveItemInArray(
+        this.participants,
+        event.previousIndex,
+        event.currentIndex
+      );
     }
   }
 
   addParticipants() {
-    if(this.participantName){
+    if (this.participantName) {
       this.showError = false;
-      this.participants.push({name: this.participantName, status: 'pending'});
+      this.participants.push({ name: this.participantName, status: "pending" });
       this.participantName = "";
     } else {
       this.showError = true;
@@ -64,32 +68,33 @@ export class PublicComponent implements OnInit {
   }
 
   play() {
-    if(this.participants.length > 0) {
+    if (this.participants.length > 0) {
       this.isPlayDisabled = true;
-      if(!this.scrumStarted) {
+      if (!this.scrumStarted) {
         this.scrumStarted = true;
         this.startTime = new Date().getTime();
         this.scrumInterval = setInterval(() => {
-          var diff = (new Date().getTime() - this.startTime)/1000;
+          var diff = (new Date().getTime() - this.startTime) / 1000;
           diff = Math.floor(diff);
           this.overallScrumTime = diff;
         }, 1000);
         this.changeParticipant();
       } else {
         var self = this;
-        this.participantTimer = setInterval(function() {      
+        this.participantTimer = setInterval(function () {
           self.participantTimerVal += 1;
-          self.participantCounter = self.participantTimerMax - self.participantTimerVal;
-          if(self.participantCounter <= 0) {
+          self.participantCounter =
+            self.participantTimerMax - self.participantTimerVal;
+          if (self.participantCounter <= 0) {
             clearInterval(self.participantTimer);
             var p = self.participants[self.playingParticipantIndex];
-            p.status = 'played';
+            p.status = "played";
             self.playingParticipantIndex += 1;
-            if(self.playingParticipantIndex < self.participants.length) {
+            if (self.playingParticipantIndex < self.participants.length) {
               self.changeParticipant();
-            } else {          
+            } else {
               self.playAudio();
-              self.runningParticipantName = 'Alinhamentos';
+              self.runningParticipantName = "Alinhamentos";
             }
           }
         }, 1000);
@@ -97,7 +102,7 @@ export class PublicComponent implements OnInit {
     }
   }
 
-  onTimeChange(){ 
+  onTimeChange() {
     this.participantTimerMax = 60 * this.participantTime;
     this.participantCounter = this.participantTimerMax;
   }
@@ -108,20 +113,21 @@ export class PublicComponent implements OnInit {
     this.participantCounter = this.participantTimerMax;
     var p = this.participants[this.playingParticipantIndex];
     this.runningParticipantName = p.name;
-    p.status = 'playing';
+    p.status = "playing";
     var self = this;
-    this.participantTimer = setInterval(function() {      
+    this.participantTimer = setInterval(function () {
       self.participantTimerVal += 1;
-      self.participantCounter = self.participantTimerMax - self.participantTimerVal;
-      if(self.participantCounter <= 0) {
+      self.participantCounter =
+        self.participantTimerMax - self.participantTimerVal;
+      if (self.participantCounter <= 0) {
         clearInterval(self.participantTimer);
-        p.status = 'played';
+        p.status = "played";
         self.playingParticipantIndex += 1;
-        if(self.playingParticipantIndex < self.participants.length) {
+        if (self.playingParticipantIndex < self.participants.length) {
           self.changeParticipant();
-        } else {          
+        } else {
           self.playAudio();
-          self.runningParticipantName = 'Alinhamentos';
+          self.runningParticipantName = "Alinhamentos";
         }
       }
     }, 1000);
@@ -141,8 +147,10 @@ export class PublicComponent implements OnInit {
   finish() {
     this.scrumStarted = false;
     clearInterval(this.scrumInterval);
-    this.participants.forEach(function(p:any) { p.status = 'pending'; });
-    this.runningParticipantName = '';
+    this.participants.forEach(function (p: any) {
+      p.status = "pending";
+    });
+    this.runningParticipantName = "";
     this.isPlayDisabled = false;
     this.playingParticipantIndex = 0;
     this.participantTimerVal = 0;
@@ -151,29 +159,30 @@ export class PublicComponent implements OnInit {
 
   participantDone() {
     clearInterval(this.participantTimer);
-    this.participants[this.playingParticipantIndex].status = 'played';
+    this.participants[this.playingParticipantIndex].status = "played";
     this.playingParticipantIndex += 1;
-    if(this.playingParticipantIndex < this.participants.length) {
+    if (this.playingParticipantIndex < this.participants.length) {
       this.changeParticipant();
     } else {
       this.playAudio();
-      this.runningParticipantName = 'Alinhamentos';
+      this.runningParticipantName = "Alinhamentos";
     }
   }
 
-  playAudio(){
-    if(this.playSound) {
+  playAudio() {
+    if (this.playSound) {
       let audio = new Audio();
-      audio.src = "assets/beep.wav"
-      //this.runningParticipantName == 'Alinhamentos' ? audio.src = "assets/lets-go-team.mp3" : audio.src = "assets/beep.wav"
+      this.runningParticipantName == "Alinhamentos"
+        ? (audio.src = "assets/lets-go-team.mp3")
+        : (audio.src = "assets/horn.mp3");
       audio.load();
-      audio.volume = 0.05;
+      audio.volume = 0.01;
       audio.play();
     }
   }
 }
 @Pipe({
-  name: "formatTime"
+  name: "formatTime",
 })
 export class FormatTimePipe implements PipeTransform {
   transform(value: number): string {

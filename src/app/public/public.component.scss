@@ -3,7 +3,7 @@
 .main-container {
     width: 100%;
     min-height: 100vh;
-    background: #1c1e21;
+    background: $light-grey;
     .content {
         padding: 20px;
         @include for-responsive($screen-tab) {
@@ -14,39 +14,39 @@
                 @include row;
                 @include align-center;
                 @include justify-space-between;
-                background: $primary-color;
-                border-bottom: 1px solid $primary-color;
+                background: $dark-grey;
                 h1 {
                     font-size: 16px;
                     font-weight: bold;
                     margin: 0;
                     font-family: $primary-font;
-                    color: #fff;
+                    color: $white;
                 }
-                 ::ng-deep .p-button {
+                ::ng-deep .p-button {
                     padding: 5px 10px;
                     width: unset;
-                    background: #ccc;
-                    color: $primary-color;
+                    background: $green;
+                    color: $dark-grey;
                 }
             }
             .card-body {
                 padding: 0;
-                background: #1c1e21;
+                background: $dark-grey;
                 .not-active {
                     overflow: hidden;
-                    background: #fff;
+                    background: $dark-grey;
                     max-height: 0;
-                    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
                     input {
                         padding: 7px 10px;
                         width: 100%;
                         font-family: $primary-font;
                         font-size: 13px;
-                        margin-right: 10px
+                        margin-right: 10px;
+                        color: $pink;
                     }
                     small {
                         font-family: $primary-font;
+                        color: $pink;
                     }
                     .numb-input {
                         margin-top: 15px;
@@ -61,6 +61,7 @@
                             font-family: $primary-font;
                             font-size: 13px;
                             margin-left: 10px;
+                            color: $pink;
                         }
                     }
                 }
@@ -89,12 +90,11 @@
                 margin-top: 10px;
             }
             h6 {
-                color: #fff !important;
+                color: $purple !important;
                 font-size: 16px;
                 font-weight: bold;
                 margin: 0;
                 font-family: $primary-font;
-                text-transform: capitalize;
                 span {
                     font-size: 25px;
                 }
@@ -108,15 +108,14 @@
                 @include for-responsive($screen-mobile) {
                     @include wrap;
                 }
-                 ::ng-deep .p-button {
+                ::ng-deep .p-button {
                     padding: 10px;
                     margin-right: 10px;
                     width: unset;
-                    color: $primary-color;
+                    color: $dark-grey;
                     font-family: $primary-font;
                     font-size: 14px;
-                    color: #ffffff;
-                    border: 1px solid #fff;
+                    color: $dark-grey;
                     @include for-responsive($screen-mobile) {
                         margin-top: 10px;
                     }
@@ -126,7 +125,7 @@
         .current-participant {
             padding: 20px;
             h6 {
-                color: $primary-color;
+                color: $purple;
                 font-size: 100px;
                 font-weight: bold;
                 text-align: center;
@@ -150,43 +149,19 @@
     }
 }
 
-::ng-deep .example-list {
-    width: 500px;
-    max-width: 100%;
-    min-height: 60px;
-    display: block;
-    background: #ccc;
-    border-radius: 0px;
-    overflow: hidden;
-    overflow-y: auto;
-    max-height: calc(100vh - 180px);
-}
-
-::ng-deep .example-list.active {
-    max-height: calc(100vh - 294px) !important;
-}
-
 ::ng-deep .example-box {
     padding: 10px;
-    border-bottom: solid 1px #ccc;
-    color: #ccc;
-    background: #1c1e21;
+    color: $dark-grey;
+    background: $blue-grey;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    box-sizing: border-box;
     cursor: move;
     font-size: 14px;
     font-family: $primary-font;
     font-weight: 600;
     text-transform: uppercase;
-}
-
-::ng-deep .cdk-drag-preview {
-    box-sizing: border-box;
-    border-radius: 0px;
-    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
 
 ::ng-deep .cdk-drag-placeholder {
@@ -197,52 +172,45 @@
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-::ng-deep .example-box:last-child {
-    border: none;
+::-webkit-scrollbar-thumb {
+    background: $dark-grey;
 }
 
-::ng-deep .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
-    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-}
-
-::-webkit-scrollbar {
-    width: 10px;
-}
-
-
-/* Track */
-
- ::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-
-
-/* Handle */
-
- ::-webkit-scrollbar-thumb {
-    background: $primary-color;
-}
-
-
-/* Handle on hover */
-
- ::-webkit-scrollbar-thumb:hover {
-    background: $primary-color;
+::-webkit-scrollbar-thumb:hover {
+    background: $dark-grey;
 }
 
 .error {
-    border: 1px solid #dc3545;
+    border: 1px solid $red;
 }
 
 .playing {
-    background: #28a745 !important;
+    background: $purple !important;
 }
 
 .played {
-    background: #d2d6db !important;
+    background: $blue-grey !important;
 }
 
 .p-button:disabled {
     background-color: #a5a5a5 !important;
-    color: #fff !important;
+    color: $dark-grey !important;
+}
+
+.p-button {
+    &-primary {
+        background-color: $green;
+    }
+
+    &-danger {
+        background-color: $purple;
+    }
+
+    &-warning {
+        background-color: $yellow;
+    }
+}
+
+.card {
+    border: 0px;
 }
