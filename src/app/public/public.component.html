@@ -3,7 +3,7 @@
   <div class="content">
     <div class="row mx-0">
       <div class="col-lg-3 col-md-4 col-12">
-        <div class="card participent">
+        <div class="card participant">
           <div class="card-header">
             <h1>Participantes ({{ participants.length }})</h1>
             <p-button
@@ -121,7 +121,7 @@
             Tempo total da daily: <span>{{ overallScrumTime | formatTime }}</span>
           </h6>
         </div>
-        <div class="card participent current mt-2">
+        <div class="card participant current mt-2">
           <div class="card-header">
             <h1>Participante atual</h1>
             <p-button
@@ -133,6 +133,7 @@
               (click)="participantDone()"
               label="Próximo"
               icon="pi pi-check"
+              class="next-participant-button"
             ></p-button>
             <p-button
               *ngIf="isPlayDisabled && runningParticipantName == 'Alinhamentos'"

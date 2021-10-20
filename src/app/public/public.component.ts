@@ -1,6 +1,5 @@
 import { Component, OnInit, HostListener } from "@angular/core";
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
-import { timer, Subscription } from "rxjs";
 import { Pipe, PipeTransform } from "@angular/core";
 
 @Component({

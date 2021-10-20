@@ -9,14 +9,14 @@
         @include for-responsive($screen-tab) {
             padding: 10px;
         }
-        .participent {
+        .participant {
             .card-header {
                 @include row;
                 @include align-center;
                 @include justify-space-between;
                 background: $dark-grey;
                 h1 {
-                    font-size: 16px;
+                    font-size: 18px;
                     font-weight: bold;
                     margin: 0;
                     font-family: $primary-font;
@@ -70,12 +70,21 @@
                 }
             }
         }
-        .participent.current {
+        .participant.current {
             min-height: calc(100vh - 179px);
             .card-body {
                 @include row;
                 @include align-center;
                 @include justify-center;
+            }
+            .card-header {
+                ::ng-deep .p-button {
+                    padding: 15px 25px;
+                    font-size: 20px;
+                    .pi {
+                        font-size: 24px;
+                    }
+                }
             }
         }
         .action-container {
