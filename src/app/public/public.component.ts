@@ -68,6 +68,7 @@ export class PublicComponent implements OnInit {
 
   play() {
     if (this.participants.length > 0) {
+      this.playAudio();
       this.isPlayDisabled = true;
       if (!this.scrumStarted) {
         this.scrumStarted = true;
@@ -107,7 +108,6 @@ export class PublicComponent implements OnInit {
   }
 
   changeParticipant() {
-    this.playAudio();
     this.participantTimerVal = 0;
     this.participantCounter = this.participantTimerMax;
     var p = this.participants[this.playingParticipantIndex];
@@ -140,7 +140,16 @@ export class PublicComponent implements OnInit {
   reset() {
     clearInterval(this.participantTimer);
     this.overallScrumTime = 0;
-    this.finish();
+    this.scrumStarted = false;
+        clearInterval(this.scrumInterval);
+        this.participants.forEach(function (p: any) {
+          p.status = "pending";
+        });
+        this.runningParticipantName = "";
+        this.isPlayDisabled = false;
+        this.playingParticipantIndex = 0;
+        this.participantTimerVal = 0;
+        this.participantCounter = this.participantTimerMax;
   }
 
   finish() {
