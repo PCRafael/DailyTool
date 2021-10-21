@@ -37,6 +37,7 @@
                     <input
                       [disabled]="isPlayDisabled"
                       type="number"
+                      [ngClass]="{ error: showError && participantTime < 0.5 || participantTime > 3}"
                       pInputText
                       placeholder="Tempo"
                       width="50px"
@@ -59,6 +60,8 @@
                     class="randomize-participants">
                   </button>
                 </div>
+                <small class="text-danger"
+                       *ngIf="showError && participantTime < 0.5 || participantTime > 3">Min 30s(0.5) / Max 3m(3)</small>
               </div>
             </div>
             <div

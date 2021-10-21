@@ -26,7 +26,7 @@ export class PublicComponent implements OnInit {
   scrumStarted: boolean = false;
   participantName: string = "";
   participants: any = [];
-  participantTime: number = 1;
+  participantTime: number = 0.5;
   playSound: boolean = true;
   addParticipant: boolean = false;
 
@@ -58,14 +58,19 @@ export class PublicComponent implements OnInit {
   }
 
   addParticipants() {
-    if (this.participantName) {
-      this.showError = false;
-      this.participants.push({ name: this.participantName, status: "pending" });
-      this.participantName = "";
-    } else {
-      this.showError = true;
-    }
+   if (this.participantName && this.participantTime >= 0.5 && this.participantTime <=3) {
+       this.showError = false;
+       this.participants.push({ name: this.participantName, status: "pending" });
+       this.participantName = "";
+   } else {
+       this.showError = true;
+   }
   }
+
+    onTimeChange() {
+          this.participantTimerMax = 60 * this.participantTime;
+          this.participantCounter = this.participantTimerMax;
+    }
 
   play() {
     if (this.participants.length > 0) {
@@ -102,11 +107,6 @@ export class PublicComponent implements OnInit {
         }, 1000);
       }
     }
-  }
-
-  onTimeChange() {
-    this.participantTimerMax = 60 * this.participantTime;
-    this.participantCounter = this.participantTimerMax;
   }
 
   changeParticipant() {
