@@ -10,6 +10,9 @@ import { ButtonModule } from "primeng/button";
 import { InputTextModule } from "primeng/inputtext";
 import { CheckboxModule } from "primeng/checkbox";
 import { DragDropModule } from "@angular/cdk/drag-drop";
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 @NgModule({
   declarations: [PublicComponent, FormatTimePipe, HeaderComponent],
   imports: [
@@ -21,6 +24,8 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
     InputTextModule,
     CheckboxModule,
     DragDropModule,
+    InputSwitchModule,
+    MatSlideToggleModule
   ],
 })
 export class PublicModule {}

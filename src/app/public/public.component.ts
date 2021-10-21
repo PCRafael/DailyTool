@@ -35,6 +35,7 @@ export class PublicComponent implements OnInit {
   startTime: any;
   overallScrumTime: number = 0;
   scrumInterval: any;
+  isRandomButtonDisabled: boolean = false;
 
   //Participant Timer
   playingParticipantIndex = 0;
@@ -70,6 +71,7 @@ export class PublicComponent implements OnInit {
     if (this.participants.length > 0) {
       this.playAudio();
       this.isPlayDisabled = true;
+      this.isRandomButtonDisabled = true;
       if (!this.scrumStarted) {
         this.scrumStarted = true;
         this.startTime = new Date().getTime();
@@ -147,6 +149,7 @@ export class PublicComponent implements OnInit {
         });
         this.runningParticipantName = "";
         this.isPlayDisabled = false;
+        this.isRandomButtonDisabled = false;
         this.playingParticipantIndex = 0;
         this.participantTimerVal = 0;
         this.participantCounter = this.participantTimerMax;
@@ -161,6 +164,7 @@ export class PublicComponent implements OnInit {
     });
     this.runningParticipantName = "";
     this.isPlayDisabled = false;
+    this.isRandomButtonDisabled = false;
     this.playingParticipantIndex = 0;
     this.participantTimerVal = 0;
     this.participantCounter = this.participantTimerMax;
@@ -185,6 +189,15 @@ export class PublicComponent implements OnInit {
       audio.load();
       audio.volume = 0.1;
       audio.play();
+    }
+  }
+
+  randomizeParticipants() {
+    for (var i = this.participants.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = this.participants[i];
+      this.participants[i] = this.participants[j];
+      this.participants[j] = temp;
     }
   }
 }

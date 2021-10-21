@@ -44,14 +44,20 @@
                       (change)="onTimeChange()"/>
                   </span>
                   <div class="p-field-checkbox d-flex align-items-center">
-                    <input
-                      [disabled]="isPlayDisabled"
-                      type="checkbox"
+                    <mat-slide-toggle
                       [(ngModel)]="playSound"
-                      [ngModelOptions]="{ standalone: true }"
-                      style="width: unset; margin-left: 10px; margin-right: 0px"/>
+                      [checked]="playSound"
+                      [disabled]="isPlayDisabled">
+                    </mat-slide-toggle>
                     <label for="ps" class="text-nowrap">Tocar sons</label>
                   </div>
+                  <button
+                    (click)="randomizeParticipants()"
+                    pButton
+                    pRipple
+                    icon="pi pi-sort-alt"
+                    class="randomize-participants">
+                  </button>
                 </div>
               </div>
             </div>
