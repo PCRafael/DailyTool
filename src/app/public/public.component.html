@@ -33,24 +33,22 @@
                 </div>
                 <small class="text-danger" *ngIf="showError && !participantName">Necessário incluir o nome</small>
                 <div class="numb-input">
-                  <span class="p-float-label">
-                    <input
-                      [disabled]="isPlayDisabled"
-                      type="number"
-                      [ngClass]="{ error: showError && participantTime < 0.5 || participantTime > 3}"
-                      pInputText
-                      placeholder="Tempo"
-                      width="50px"
-                      [(ngModel)]="participantTime"
-                      (change)="onTimeChange()"/>
-                  </span>
+                  <label>Tempo</label>
+                  <input
+                    [disabled]="isPlayDisabled"
+                    type="number"
+                    [ngClass]="{ error: showError && participantTime < 0.5 || participantTime > 3}"
+                    pInputText
+                    width="50px"
+                    [(ngModel)]="participantTime"
+                    (change)="onTimeChange()"/>
                   <div class="p-field-checkbox d-flex align-items-center">
+                    <label for="ps" class="text-nowrap">Tocar sons</label>
                     <mat-slide-toggle
                       [(ngModel)]="playSound"
                       [checked]="playSound"
                       [disabled]="isPlayDisabled">
                     </mat-slide-toggle>
-                    <label for="ps" class="text-nowrap">Tocar sons</label>
                   </div>
                   <button
                     (click)="randomizeParticipants()"
@@ -123,7 +121,7 @@
               pButton
               pRipple
               label="Reiniciar Daily"
-              icon="pi pi-sliders-h"
+              icon="pi pi-refresh"
               class="p-button-warning"></button>
           </div>
           <h6>

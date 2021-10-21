@@ -26,7 +26,7 @@ export class PublicComponent implements OnInit {
   scrumStarted: boolean = false;
   participantName: string = "";
   participants: any = [];
-  participantTime: number = 0.5;
+  participantTime: number = 1;
   playSound: boolean = true;
   addParticipant: boolean = false;
 
@@ -45,7 +45,8 @@ export class PublicComponent implements OnInit {
   participantTimerVal = 0;
   participantCounter = this.participantTimerMax;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   dropFunction(event: CdkDragDrop<string[]>) {
     if (!this.isPlayDisabled) {

@@ -59,14 +59,15 @@
                         }
                         label {
                             font-family: $primary-font;
-                            font-size: 13px;
-                            margin-left: 10px;
+                            font-size: 15px;
+                            //margin-left: 20px;
+                            margin-right: 10px;
                             color: $pink;
                         }
                     }
                 }
                 .not-active.active {
-                    max-height: 150px !important;
+                    max-height: 170px !important;
                 }
             }
         }
