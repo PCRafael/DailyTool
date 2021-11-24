@@ -22,6 +22,7 @@
                     [ngClass]="{ error: showError && !participantName }"
                     pInputText
                     placeholder="Nome"
+                    (keyup.enter)="addParticipants()"
                     [(ngModel)]="participantName"/>
                   <button
                     [disabled]="isPlayDisabled"
