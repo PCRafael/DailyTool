@@ -22,7 +22,7 @@
                     [ngClass]="{ error: showError && !participantName }"
                     pInputText
                     placeholder="Nome"
-                    (keyup.enter)="addParticipants()"
+                    (keydown)="onKeydownOnAddParticipant($event)"
                     [(ngModel)]="participantName"/>
                   <button
                     [disabled]="isPlayDisabled"
@@ -32,7 +32,7 @@
                     class="p-button-primary"
                   ></button>
                 </div>
-                <small class="text-danger" *ngIf="showError && !participantName">Necessário incluir o nome</small>
+                <small class="text-danger" *ngIf="showError && !participantName.trim()">Necessário incluir o nome</small>
                 <div class="numb-input">
                   <label>Tempo</label>
                   <input
@@ -90,7 +90,7 @@
                   class="p-button-danger p-button-sm"
                   [disabled]="participant.status != 'pending'"
                   *ngIf="!isPlayDisabled"
-                  (click)="participants.splice(i, 1)"
+                  (click)="deleteParticipant(i)"
                   style="padding: 5px 8px; width: unset"
                 ></button>
               </div>

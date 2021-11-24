@@ -11,13 +11,19 @@ export class PublicComponent implements OnInit {
   @HostListener("document:keyup", ["$event"]) handleKeyboardEvent(
     event: KeyboardEvent
   ) {
-    if (event.key == " ") {
-      if (this.isPlayDisabled) this.pause();
-      else this.play();
-    } else if (event.key == "Enter") {
-      if (this.isPlayDisabled && this.runningParticipantName == "Alinhamentos")
-        this.finish();
-      else if (this.scrumStarted) this.participantDone();
+    if (this.participantName == "") {
+      switch (event.key) {
+        case " ":
+          this.isPlayDisabled ? this.pause() : this.play();
+          break;
+        case "Enter":
+          (this.isPlayDisabled && this.runningParticipantName == "Alinhamentos") 
+          ? this.finish() 
+          : (this.scrumStarted && this.isPlayDisabled) ? this.participantDone() : null;
+          break;
+        default:
+          break;
+      }
     }
   }
 
@@ -46,6 +52,7 @@ export class PublicComponent implements OnInit {
   participantCounter = this.participantTimerMax;
 
   ngOnInit(): void {
+    this.retrieveParticipantsFromLocalStorage();
   }
 
   dropFunction(event: CdkDragDrop<string[]>) {
@@ -58,20 +65,40 @@ export class PublicComponent implements OnInit {
     }
   }
 
-  addParticipants() {
-   if (this.participantName && this.participantTime >= 0.5 && this.participantTime <=3) {
-       this.showError = false;
-       this.participants.push({ name: this.participantName, status: "pending" });
-       this.participantName = "";
-   } else {
-       this.showError = true;
-   }
+  saveParticipantsOnLocalStorage(): void {
+    localStorage.setItem("participants", JSON.stringify(this.participants));
   }
 
-    onTimeChange() {
-          this.participantTimerMax = 60 * this.participantTime;
-          this.participantCounter = this.participantTimerMax;
+  retrieveParticipantsFromLocalStorage(): void {
+    this.participants = JSON.parse(localStorage.getItem("participants") || '[]')
+  }
+
+  onKeydownOnAddParticipant(event: KeyboardEvent): void {
+    if (event.key === "Enter") {
+      this.addParticipants();
+    };
+  }
+
+  addParticipants() {
+    if (this.participantName.trim() && this.participantTime >= 0.5 && this.participantTime <=3) {
+      this.showError = false;
+      this.participants.push({ name: this.participantName, status: "pending" });
+      this.saveParticipantsOnLocalStorage();
+      this.participantName = "";
+    } else {
+      this.showError = true;
     }
+  }
+
+  deleteParticipant(i: number) {
+    this.participants.splice(i, 1);
+    this.saveParticipantsOnLocalStorage();
+  }
+
+  onTimeChange() {
+        this.participantTimerMax = 60 * this.participantTime;
+        this.participantCounter = this.participantTimerMax;
+  }
 
   play() {
     if (this.participants.length > 0) {
@@ -200,6 +227,7 @@ export class PublicComponent implements OnInit {
       this.participants[i] = this.participants[j];
       this.participants[j] = temp;
     }
+    this.saveParticipantsOnLocalStorage();
   }
 }
 @Pipe({
