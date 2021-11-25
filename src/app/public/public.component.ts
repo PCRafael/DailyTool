@@ -35,6 +35,8 @@ export class PublicComponent implements OnInit {
   participantTime: number = 1;
   playSound: boolean = true;
   addParticipant: boolean = false;
+  shouldShowParticipantsNames: boolean = true;
+  hideParticipantsNameIconButton: string = "pi pi-eye-slash";
 
   isPlayDisabled: boolean = false;
   showError: boolean = false;
@@ -228,6 +230,15 @@ export class PublicComponent implements OnInit {
       this.participants[j] = temp;
     }
     this.saveParticipantsOnLocalStorage();
+  }
+
+  hideParticipants() {
+    this.shouldShowParticipantsNames = !this.shouldShowParticipantsNames;
+    if(this.hideParticipantsNameIconButton == "pi pi-eye-slash"){
+      this.hideParticipantsNameIconButton = "pi pi-eye";
+    } else{
+      this.hideParticipantsNameIconButton = "pi pi-eye-slash"
+    }
   }
 }
 @Pipe({

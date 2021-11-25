@@ -58,6 +58,13 @@
                     icon="pi pi-sort-alt"
                     class="randomize-participants">
                   </button>
+                  <button
+                    (click)="hideParticipants()"
+                    pButton
+                    pRipple
+                    [icon]="hideParticipantsNameIconButton"
+                    class="hide-participants">
+                  </button>
                 </div>
                 <small class="text-danger"
                        *ngIf="showError && participantTime < 0.5 || participantTime > 3">Min 30s(0.5) / Max 3m(3)</small>
@@ -82,7 +89,12 @@
                   class="example-custom-placeholder"
                   *cdkDragPlaceholder
                 ></div>
-                {{ participant.name }}
+                <div *ngIf="shouldShowParticipantsNames; else hideParticipants">
+                  {{ participant.name }}
+                </div>
+                <ng-template #hideParticipants>
+                  ***********************
+                </ng-template>
                 <button
                   icon="pi pi-trash"
                   pButton
