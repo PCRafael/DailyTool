@@ -159,7 +159,7 @@
     }
 }
 
-::ng-deep .example-box {
+.example-box {
     padding: 10px;
     color: $dark-grey;
     background: $purple;
@@ -172,6 +172,10 @@
     font-family: $primary-font;
     font-weight: 600;
     text-transform: uppercase;
+}
+
+.example-box.cdk-drag-disabled {
+    cursor: default;
 }
 
 ::ng-deep .cdk-drag-placeholder {

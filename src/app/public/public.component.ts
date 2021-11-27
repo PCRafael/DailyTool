@@ -8,6 +8,49 @@ import { Pipe, PipeTransform } from "@angular/core";
   styleUrls: ["./public.component.scss"],
 })
 export class PublicComponent implements OnInit {
+  private participantTimerVal: number;
+  private playingParticipantIndex: number;
+  private scrumInterval: any;
+  private startTime: number;
+  private participantTimer: any;
+  private participantTimerMax: number;
+
+  public scrumStarted: boolean;
+  public participantName: string;
+  public runningParticipantName: string;
+  public hideParticipantsNameIconButton: string;
+  public participantTime: number;
+  public overallScrumTime: number;
+  public participantCounter: number;
+  public playSound: boolean;
+  public addParticipant: boolean;
+  public shouldShowParticipantsNames: boolean;
+  public isPlayDisabled: boolean;
+  public showError: boolean;
+  public isRandomButtonDisabled: boolean;
+  public participants: any;
+
+  constructor() {
+    this.scrumStarted = false;
+    this.participantTimerVal = 0;
+    this.isRandomButtonDisabled = false;
+    this.playingParticipantIndex = 0;
+    this.startTime = new Date().getTime();
+
+    this.participantName = "";
+    this.participantTime = 1;
+    this.participantTimerMax = 60 * this.participantTime;
+    this.playSound = true;
+    this.addParticipant = false;
+    this.shouldShowParticipantsNames = true;
+    this.hideParticipantsNameIconButton = "pi pi-eye-slash";
+    this.isPlayDisabled = false;
+    this.showError = false;
+    this.overallScrumTime = 0;
+    this.runningParticipantName = "";
+    this.participantCounter = this.participantTimerMax;
+  }
+
   @HostListener("document:keyup", ["$event"]) handleKeyboardEvent(
     event: KeyboardEvent
   ) {
@@ -27,37 +70,11 @@ export class PublicComponent implements OnInit {
     }
   }
 
-  constructor() {}
-
-  scrumStarted: boolean = false;
-  participantName: string = "";
-  participants: any = [];
-  participantTime: number = 1;
-  playSound: boolean = true;
-  addParticipant: boolean = false;
-  shouldShowParticipantsNames: boolean = true;
-  hideParticipantsNameIconButton: string = "pi pi-eye-slash";
-
-  isPlayDisabled: boolean = false;
-  showError: boolean = false;
-  startTime: any;
-  overallScrumTime: number = 0;
-  scrumInterval: any;
-  isRandomButtonDisabled: boolean = false;
-
-  //Participant Timer
-  playingParticipantIndex = 0;
-  runningParticipantName: string = "";
-  participantTimer: any;
-  participantTimerMax = 60 * this.participantTime;
-  participantTimerVal = 0;
-  participantCounter = this.participantTimerMax;
-
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.retrieveParticipantsFromLocalStorage();
   }
 
-  dropFunction(event: CdkDragDrop<string[]>) {
+  public dropFunction(event: CdkDragDrop<string[]>): void {
     if (!this.isPlayDisabled) {
       moveItemInArray(
         this.participants,
@@ -67,22 +84,14 @@ export class PublicComponent implements OnInit {
     }
   }
 
-  saveParticipantsOnLocalStorage(): void {
-    localStorage.setItem("participants", JSON.stringify(this.participants));
-  }
-
-  retrieveParticipantsFromLocalStorage(): void {
-    this.participants = JSON.parse(localStorage.getItem("participants") || '[]')
-  }
-
-  onKeydownOnAddParticipant(event: KeyboardEvent): void {
+  public onKeydownOnAddParticipant(event: KeyboardEvent): void {
     if (event.key === "Enter") {
       this.addParticipants();
     };
   }
 
-  addParticipants() {
-    if (this.participantName.trim() && this.participantTime >= 0.5 && this.participantTime <=3) {
+  public addParticipants(): void {
+    if (this.participantName.trim()) {
       this.showError = false;
       this.participants.push({ name: this.participantName, status: "pending" });
       this.saveParticipantsOnLocalStorage();
@@ -92,22 +101,23 @@ export class PublicComponent implements OnInit {
     }
   }
 
-  deleteParticipant(i: number) {
+  public deleteParticipant(i: number): void {
     this.participants.splice(i, 1);
     this.saveParticipantsOnLocalStorage();
   }
 
-  onTimeChange() {
-        this.participantTimerMax = 60 * this.participantTime;
-        this.participantCounter = this.participantTimerMax;
+  public onTimeChange(): void {
+    this.participantTimerMax = 60 * this.participantTime;
+    this.participantCounter = this.participantTimerMax;
   }
 
-  play() {
-    if (this.participants.length > 0) {
-      this.playAudio();
+  public play(): void {
+    const showTimerError = this.setShowTimerError();
+    if (this.participants.length > 0 && showTimerError) {
       this.isPlayDisabled = true;
       this.isRandomButtonDisabled = true;
       if (!this.scrumStarted) {
+        this.playAudio();
         this.scrumStarted = true;
         this.startTime = new Date().getTime();
         this.scrumInterval = setInterval(() => {
@@ -139,7 +149,96 @@ export class PublicComponent implements OnInit {
     }
   }
 
-  changeParticipant() {
+  public pause(): void {
+    this.isPlayDisabled = false;
+    clearInterval(this.participantTimer);
+  }
+
+  public reset(): void {
+    clearInterval(this.participantTimer);
+    this.overallScrumTime = 0;
+    this.scrumStarted = false;
+        clearInterval(this.scrumInterval);
+        this.participants.forEach(function (p: any) {
+          p.status = "pending";
+        });
+        this.runningParticipantName = "";
+        this.isPlayDisabled = false;
+        this.isRandomButtonDisabled = false;
+        this.playingParticipantIndex = 0;
+        this.participantTimerVal = 0;
+        this.participantCounter = this.participantTimerMax;
+  }
+
+  public finish(): void {
+    this.playAudio();
+    this.scrumStarted = false;
+    clearInterval(this.scrumInterval);
+    this.participants.forEach(function (p: any) {
+      p.status = "pending";
+    });
+    this.runningParticipantName = "";
+    this.isPlayDisabled = false;
+    this.isRandomButtonDisabled = false;
+    this.playingParticipantIndex = 0;
+    this.participantTimerVal = 0;
+    this.participantCounter = this.participantTimerMax;
+  }
+
+  public participantDone(): void {
+    clearInterval(this.participantTimer);
+    this.participants[this.playingParticipantIndex].status = "played";
+    this.playingParticipantIndex += 1;
+    if (this.playingParticipantIndex < this.participants.length) {
+      this.changeParticipant();
+    } else {
+      this.playAudio();
+      this.runningParticipantName = "Alinhamentos";
+    }
+  }
+
+  public randomizeParticipants(): void {
+    for (var i = this.participants.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = this.participants[i];
+      this.participants[i] = this.participants[j];
+      this.participants[j] = temp;
+    }
+    this.saveParticipantsOnLocalStorage();
+  }
+
+  public hideParticipants(): void {
+    this.shouldShowParticipantsNames = !this.shouldShowParticipantsNames;
+    if(this.hideParticipantsNameIconButton == "pi pi-eye-slash"){
+      this.hideParticipantsNameIconButton = "pi pi-eye";
+    } else{
+      this.hideParticipantsNameIconButton = "pi pi-eye-slash"
+    }
+  }
+
+  public setShowTimerError(): boolean {
+    return (this.participantTime >= 0.5 && this.participantTime <=3);
+  }
+
+  private saveParticipantsOnLocalStorage(): void {
+    localStorage.setItem("participants", JSON.stringify(this.participants));
+  }
+
+  private retrieveParticipantsFromLocalStorage(): void {
+    this.participants = JSON.parse(localStorage.getItem("participants") || '[]')
+  }
+
+  private playAudio(): void {
+    if (this.playSound) {
+      let audio = new Audio();
+      this.runningParticipantName == "Alinhamentos" ? (audio.src = "assets/lets-go-team.mp3") : (audio.src = "assets/horn.mp3");
+      audio.load();
+      audio.volume = 0.1;
+      audio.play();
+    }
+  }
+
+  private changeParticipant(): void {
     this.participantTimerVal = 0;
     this.participantCounter = this.participantTimerMax;
     var p = this.participants[this.playingParticipantIndex];
@@ -162,83 +261,6 @@ export class PublicComponent implements OnInit {
         }
       }
     }, 1000);
-  }
-
-  pause() {
-    this.isPlayDisabled = false;
-    clearInterval(this.participantTimer);
-  }
-
-  reset() {
-    clearInterval(this.participantTimer);
-    this.overallScrumTime = 0;
-    this.scrumStarted = false;
-        clearInterval(this.scrumInterval);
-        this.participants.forEach(function (p: any) {
-          p.status = "pending";
-        });
-        this.runningParticipantName = "";
-        this.isPlayDisabled = false;
-        this.isRandomButtonDisabled = false;
-        this.playingParticipantIndex = 0;
-        this.participantTimerVal = 0;
-        this.participantCounter = this.participantTimerMax;
-  }
-
-  finish() {
-    this.playAudio();
-    this.scrumStarted = false;
-    clearInterval(this.scrumInterval);
-    this.participants.forEach(function (p: any) {
-      p.status = "pending";
-    });
-    this.runningParticipantName = "";
-    this.isPlayDisabled = false;
-    this.isRandomButtonDisabled = false;
-    this.playingParticipantIndex = 0;
-    this.participantTimerVal = 0;
-    this.participantCounter = this.participantTimerMax;
-  }
-
-  participantDone() {
-    clearInterval(this.participantTimer);
-    this.participants[this.playingParticipantIndex].status = "played";
-    this.playingParticipantIndex += 1;
-    if (this.playingParticipantIndex < this.participants.length) {
-      this.changeParticipant();
-    } else {
-      this.playAudio();
-      this.runningParticipantName = "Alinhamentos";
-    }
-  }
-
-  playAudio() {
-    if (this.playSound) {
-      let audio = new Audio();
-      this.runningParticipantName == "Alinhamentos" ? (audio.src = "assets/lets-go-team.mp3") : (audio.src = "assets/horn.mp3");
-      audio.load();
-      audio.volume = 0.1;
-      audio.play();
-    }
-  }
-
-  randomizeParticipants() {
-    for (var i = this.participants.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var temp = this.participants[i];
-      this.participants[i] = this.participants[j];
-      this.participants[j] = temp;
-    }
-    this.saveParticipantsOnLocalStorage();
-  }
-
-  hideParticipants() {
-    this.shouldShowParticipantsNames = !this.shouldShowParticipantsNames;
-    if(this.hideParticipantsNameIconButton == "pi pi-eye-slash"){
-      this.hideParticipantsNameIconButton = "pi pi-eye";
-    } else{
-      this.hideParticipantsNameIconButton = "pi pi-eye-slash"
-    }
   }
 }
 @Pipe({

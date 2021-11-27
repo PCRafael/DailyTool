@@ -25,7 +25,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     CheckboxModule,
     DragDropModule,
     InputSwitchModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
   ],
 })
 export class PublicModule {}

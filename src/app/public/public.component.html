@@ -38,7 +38,7 @@
                   <input
                     [disabled]="isPlayDisabled"
                     type="number"
-                    [ngClass]="{ error: showError && participantTime < 0.5 || participantTime > 3}"
+                    [ngClass]="{ error: !setShowTimerError()}"
                     pInputText
                     width="50px"
                     [(ngModel)]="participantTime"
@@ -47,8 +47,7 @@
                     <label for="ps" class="text-nowrap">Tocar sons</label>
                     <mat-slide-toggle
                       [(ngModel)]="playSound"
-                      [checked]="playSound"
-                      [disabled]="isPlayDisabled">
+                      [checked]="playSound">
                     </mat-slide-toggle>
                   </div>
                   <button
@@ -56,7 +55,8 @@
                     pButton
                     pRipple
                     icon="pi pi-sort-alt"
-                    class="randomize-participants">
+                    class="randomize-participants"
+                    [disabled]="scrumStarted">
                   </button>
                   <button
                     (click)="hideParticipants()"
@@ -67,15 +67,10 @@
                   </button>
                 </div>
                 <small class="text-danger"
-                       *ngIf="showError && participantTime < 0.5 || participantTime > 3">Min 30s(0.5) / Max 3m(3)</small>
+                       *ngIf="!setShowTimerError()">Min 30s(0.5) / Max 3m(3)</small>
               </div>
             </div>
-            <div
-              cdkDropList
-              class="example-list"
-              [ngClass]="{ active: addParticipant }"
-              (cdkDropListDropped)="dropFunction($event)"
-            >
+            <div cdkDropList [ngClass]="{ active: addParticipant }" (cdkDropListDropped)="dropFunction($event)">
               <div
                 class="example-box"
                 *ngFor="let participant of participants; let i = index"
@@ -84,6 +79,7 @@
                   playing: participant.status == 'playing',
                   played: participant.status == 'played'
                 }"
+                [cdkDragDisabled]="scrumStarted"
               >
                 <div
                   class="example-custom-placeholder"
@@ -101,7 +97,6 @@
                   pRipple
                   class="p-button-danger p-button-sm"
                   [disabled]="participant.status != 'pending'"
-                  *ngIf="!isPlayDisabled"
                   (click)="deleteParticipant(i)"
                   style="padding: 5px 8px; width: unset"
                 ></button>
