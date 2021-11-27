@@ -244,7 +244,7 @@
 .randomize-participants {
     background-color: $green;
     margin-left: auto;
-    margin-right: 0px;
+    margin-right: 10px;
 
     &.p-button {
         color: black;
@@ -253,7 +253,6 @@
 
 .hide-participants {
     background-color: $green;
-    margin-left: auto;
     margin-right: 0px;
 
     &.p-button {
